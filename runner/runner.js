@@ -747,6 +747,121 @@ function setup() {
     }
 
     runner = new Runner("/MANIFEST.json", options);
+
+
+
+
+
+
+
+
+
+
+    /*
+     * Override for hybridcast TV
+     */
+    // Set keyevents
+    document.addEventListener("keydown", function(event){
+	var KEYCODE_YELLOW = 131;
+
+	switch(event.which){
+	        case KEYCODE_YELLOW:
+	        location.reload();
+	        break;
+	    }
+    });
+
+    // start overrite
+
+
+    var xhr = new XMLHttpRequest();
+    var path = "/MANIFEST.json";
+    xhr.open("GET", path);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState !== 4) {
+            return;
+        }
+        if (!(xhr.status === 200 || xhr.status === 0)) {
+            throw new Error("Manifest " + path + " failed to load");
+        }
+        var data = JSON.parse(xhr.responseText);
+	var array = [];
+	var tests = ["manual", "reftest", "stub", "testharness"];
+	for (var j=0;j<tests.length;j++){
+	        for (var i=0;i<data.items[tests[j]].length;i++){
+		    var u = data.items[tests[j]][i].url.split("/")[1];
+		    if (array.indexOf(u) < 0){
+			    console.log(u);
+			    array.push(u);
+			}
+		    }
+	}
+	array = array.sort();
+
+	for (var j=0;j<array.length;j++){
+	        var x = document.getElementById("path");
+	        var option = document.createElement("option");
+	        var val = array[j];
+	        option.text = "/"+val;
+	        option.setAttribute('value', "/"+val);
+	        x.add(option);
+	    }
+
+    };
+    xhr.send(null);
+
+
+    runner.open_test_window = function() {
+        runner.test_window = document.getElementById("window_replacement_frame");
+    };
+    runner.load = function(path){
+        runner.test_window.src = runner.server + path;
+    };
+    runner.done = function() {
+        runner.done_flag = true;
+        runner.done_callbacks.forEach(function(callback) {
+            callback();
+        });
+	document.querySelector(".jsonResults").style.display = "none";
+	// Post results json
+	var accepturl = "http://web-platform.test/tools/runner/accept.py";
+	var xhr = new XMLHttpRequest();
+	try {
+	        xhr.open("POST","accept.py");
+	        xhr.setRequestHeader("Content-type","application/json");
+	        xhr.send(runner.results.to_json());
+	    } catch(e) {
+		    //
+		}
+    };
+    // end override
+    
+    document.getElementById('th').focus();  // for SHARP
+    // Number is not good for TV, because of focus control.
+    document.getElementById('timeout_multiplier').setAttribute("type", "text");
+
+    document.getElementById('ref').checked = false;
+    document.getElementById('man').checked = false;
+    document.getElementsByClassName('results')[0].setAttribute("style", "display:none;");
+
+    // Keycontrol for hybridcast TV
+    document.addEventListener("keydown", function(event){
+	var KEYCODE_YELLOW = 131;
+
+	switch(event.which){
+	        case KEYCODE_YELLOW:
+	        location.reload();
+	        break;
+	    }
+    });
+
+
+
+
+
+
+
+
     var test_control = new TestControl(document.getElementById("testControl"), runner);
     new ManualUI(document.getElementById("manualUI"), runner);
     new VisualOutput(document.getElementById("output"), runner);

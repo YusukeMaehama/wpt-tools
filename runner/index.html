@@ -5,6 +5,8 @@
 <link rel='stylesheet' href='css/bootstrap.min.css'>
 <link rel='stylesheet' href='css/bootstrap-theme.min.css'>
 <link rel=stylesheet href=runner.css>
+<script src='Blob.js'></script>
+<script src='bind.js'></script>
 <script src=runner.js></script>
 
 
@@ -12,8 +14,8 @@
   <div class="container">
     <div class="navbar-header">
       <a class="navbar-brand" href="#">
-        <img src='logo.svg' width='50' height='50' alt='Logo for the WPT Runner'>
-        Web Platform Tests Runner
+        <img src='logo.svg' width='50' height='50' alt='Logo for the WPT Runner' style="display:inline-block;">
+        Web Platform Tests Runner for TV
       </a>
     </div>
   </div>
@@ -45,7 +47,12 @@
         <div class="form-group">
           <label for="path" class="col-sm-3 control-label">Run tests under path</label>
           <div class="col-sm-9">
+<!--
             <input value="/" id='path' class='path form-control' disabled>
+-->
+<select id="path" class="path form-control" disabled>
+  <option value="/">/</option>
+</select>
             <label>
               <input type=checkbox id='use_regex'>
               Use regular expression
@@ -84,7 +91,7 @@
     </div>
   </div>
 
-  <div class="instructions">
+  <div class="instructions" style="display:none;">
     <p>
       To run a set of
       <a href="https://github.com/w3c/web-platform-tests/blob/master/README.md">web-platform-tests</a>
@@ -208,5 +215,8 @@
       </table>
     </div>
   </div>
+
+<iframe id="window_replacement_frame" seamless width="100%" scrolling="yes"></iframe>
+
 
 </div>

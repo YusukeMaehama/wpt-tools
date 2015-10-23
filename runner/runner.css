@@ -195,3 +195,45 @@ td.ERROR {
   animation-iteration-count: infinite;
   animation-direction: alternate;
 }
+
+/* hack for TV */
+@media screen and (width: 1920px) and (height:1080px) {
+    body{
+	font-size: 24px;
+	}
+    *:focus{
+	box-shadow: none;
+	border: 5px solid #f87ebd;
+	box-sizing: border-box;
+}
+    .form-control{
+	font-size: 1.4em !important;
+	height: 1.6em;
+	}
+    div.container{
+	margin-left: 0px;
+	max-width: 940px;
+	}
+    #window_replacement_frame{
+	position: fixed;
+	top: 70px;
+	right: 20px;
+	width: 940px;
+	height: 980px;
+	
+	}
+    .btn{
+	font-size: 32px !important;
+	}
+    .navbar-brand{
+	font-size: 32px;
+	}
+
+    table td.PASS,
+    table td.FAIL,
+    table td.TIMEOUT,
+    table td.ERROR,
+    table td.NOTRUN {
+	font-size: 48px;
+	}
+}
