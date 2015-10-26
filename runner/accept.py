@@ -14,7 +14,7 @@ root = localpaths.repo_root
 def main(request, response):
     now = datetime.datetime.now()
     n = now.strftime("%Y%m%d%H%M%S")
-    path = os.path.join(root, "dump", "result.json."+n)
+    path = os.path.join(root, "tools", "runner", "dump", "result.json."+n)
     f = open(path, 'w')
     f.write(request.body)
     f.close
