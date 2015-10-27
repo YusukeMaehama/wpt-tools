@@ -34,11 +34,15 @@ class DNSQuery:
 
       if re.match(".*web-platform\.test" , self.domain[0:-1]):
         packet+=str.join('',map(lambda x: chr(int(x)), ip.split('.'))) # 4bytes of IP
-#        self.ip = ip
-#      else:
-#        resolved = socket.gethostbyname(self.domain[0:-1])
-#        self.ip = resolved
-#        packet+=str.join('',map(lambda x: chr(int(x)), resolved.split('.'))) # 4bytes of IP
+        self.ip = ip
+      else:
+        try:
+          resolved = socket.gethostbyname(self.domain[0:-1])
+          self.ip = resolved
+          packet+=str.join('',map(lambda x: chr(int(x)), resolved.split('.'))) # 4bytes of IP
+        except:
+          self.ip = ''
+          packet+=''
     return packet
 
 def usage():
@@ -84,7 +88,7 @@ if __name__ == '__main__':
       data, addr = udps.recvfrom(1024)
       p=DNSQuery(data)
       udps.sendto(p.respuesta(ip), addr)
-      print 'Request: %s -> %s' % (p.domain, ip)
+      print 'Request: %s -> %s' % (p.domain, p.ip)
   except KeyboardInterrupt:
     print '\nBye!'
     udps.close()
