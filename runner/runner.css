@@ -236,4 +236,7 @@ td.ERROR {
     table td.NOTRUN {
 	font-size: 48px;
 	}
+	table td.NOTRUN	{
+		color: cyan;
+	}
 }
